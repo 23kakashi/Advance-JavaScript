@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
+    <a href="https://icons8.com/icon/W0xu6u7K9A0F/search"></a>
     <link rel="icon" type="image/png" sizes="32x32" href="./favicon/favicon.png">
     <link rel="stylesheet" href="./styles/index.css">
 </head>
@@ -13,11 +14,22 @@
 <body>
     <nav id="navbar">
         <!-- <div>
+            
+        </div> -->
+        <!-- <div>
             <span id="home">Home</span>
             <span id="login">Login</span>
             <span id="signup">Signup</span>
         </div> -->
     </nav>
+    <div id="searchBar">
+        <input oninput="debounce(main,1000)" type="text" id="searchMovie" placeholder="Enter Movie Name" style="width: 400px;border-radius:4px 0 0 4px; border: 1px solidbalck; background-color: cadetblue;">
+        <img style="border-radius: 0 4px 4px 0;border: 1px solid black;height: 32px;margin-top: 5px; background-color: cadetblue;" src="https://img.icons8.com/ios-glyphs/30/000000/search--v2.png" />
+    </div>
+    <div id="thismovie">
+        <div id="thismovieImg"></div>
+        <div id="thismovieDetail"></div>
+    </div>
     <div id="slideshow">
         <!--Show Slideshow here-->
 

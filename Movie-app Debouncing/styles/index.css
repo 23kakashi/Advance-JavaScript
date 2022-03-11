@@ -1,0 +1,69 @@
+/* navbar */
+*{
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+}
+#navbar{
+   /* display: flex; */
+   position: sticky;
+   background-color: #7284a7;
+}
+#searchMovie{
+   height: 32px;
+   width: 100%;
+   margin: 5px 0;
+
+}
+#searchBar{
+   display: flex;
+   justify-content: center;
+   
+}
+#navbar div{
+   text-align: right;
+   padding: 10px;
+}
+#navbar span{
+   padding: 15px 20px;
+   cursor: pointer;
+}
+
+/* slideshow */
+#slideshow{
+   /* border: 1px solid red; */
+   height: 600px;
+}
+
+/* sort */
+
+#sort-buttons{
+   /* border: 1px solid red; */
+   text-align: right;
+   padding: 10px 20px 0 0;
+}
+#sort-buttons > button{
+   padding: 4px;
+   color: white;
+   font-weight: 700;
+   background-color: teal;
+}
+
+/* movies */
+#movies{
+   padding: 20px;
+   display: grid;
+   grid-template-columns: repeat(3 ,1fr);
+   gap: 30px;
+}
+
+#thismovie{
+   /* border: 1px solid red; */
+   /* height: 100px; */
+   display: flex;
+}
+#thismovie>div:last-child{
+   /* border: 2px solid blue; */
+   margin-left: 30px;
+
+}

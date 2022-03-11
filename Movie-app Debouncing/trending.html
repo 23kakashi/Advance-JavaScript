@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Trending Movies</title>
+   <style>
+      #container{
+         display: grid;
+         grid-template-columns: repeat(3,1fr);
+         gap: 20px;
+      }
+   </style>
+</head>
+
+<body>
+   <div id="container"></div>
+</body>
+
+</html>
+<script>
+   abara()
+   async function abara() {
+      try {
+         let res = await fetch(`https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=ecc9fcdc2ea17e5c996f91fb3d80acd3`)
+         
+         // console.log(res)
+         let data = await res.json()
+         console.log(data.results)
+         display(data.results)
+      }
+      catch (e) {
+         console.log(e)
+      } //98df729eed7c1a82974fbc65349f5e76
+   }
+
+
+   function display(data) {
+   document.querySelector("#container").innerHTML = ""
+   data.map(function (item) {
+      // console.log(item.title)
+      getData(item.title)
+   })
+}
+
+async function getData(x){
+   let res = await fetch(`https://www.omdbapi.com/?apikey=f65e2728&t=${x}`)
+   let thismovie = await res.json()
+   console.log(thismovie.Title)
+
+   let img = document.createElement(`img`)
+   img.src = thismovie.Poster
+   img.style.height = "400px"
+   img.style.width = "400px"
+
+   let div = document.createElement(`div`)
+
+   let name = document.createElement(`h1`)
+   name.innerText = thismovie.Title
+   let rating = document.createElement(`p`)
+   rating.innerText = thismovie.imdbRating
+   let year = document.createElement(`p`)
+   year.innerText = thismovie.Year
+   let Genre = document.createElement(`p`)
+   Genre.innerText = thismovie.Genre
+   let Director = document.createElement(`p`)
+   Director.innerText = thismovie.Director
+   let Actors = document.createElement(`p`)
+   Actors.innerText = thismovie.Actors
+   let Awards = document.createElement(`p`)
+   Awards.innerText = thismovie.Awards
+
+   div.append(img,name,rating,year,Genre,Director,Actors,Awards)
+   document.querySelector(`#container`).append(div)
+}
+</script>

@@ -1,0 +1,29 @@
+#login-form-div{
+   /* border: 1px solid red; */
+   /* height: 400px; */
+   width: 20%;
+   min-width: 400px;
+   margin: 100px auto;
+   padding-bottom: 40px;
+   padding-top: 20px;
+   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+   border-radius: 8px;
+}
+#login-form-div form{
+   text-align: center;
+}
+#login-form-div input{
+   display: block;
+   margin: 25px auto;
+   width: 70%;
+   height: 35px;
+}
+#login-form-div input:last-child{
+   display: block;
+   margin: 25px auto;
+   width: 40%;
+   height: 35px;
+   color: white;
+   background-color: teal;
+   border-radius: 8px;
+}
