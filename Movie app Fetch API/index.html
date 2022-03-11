@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Fetch API</title>
+</head>
+<style>
+   #container {
+      margin: 50px auto;
+      text-align: center;
+   }
+
+   #movie {
+      width: 30%;
+      height: 35px;
+      font-size: 18px;
+   }
+
+   #submit {
+
+      height: 35px;
+      font-size: 18px;
+   }
+
+   #show {
+      width: 30%;
+      display: flex;
+      padding: 40px;
+      justify-content: space-around;
+   }
+</style>
+
+<body>
+   <div id="container">
+      <input type="text" id="movie" placeholder="Enter movie name" value="">
+      <button onclick="searchMovie()" id="submit">Search</button>
+   </div>
+   <div id="show">
+
+   </div>
+</body>
+
+</html>
+<script>
+
+
+   function searchMovie() {
+      let movie = document.querySelector("#movie").value
+      console.log(movie)
+      makeRequest(movie)
+   }
+
+   async function makeRequest(movie) {
+
+      let res = await fetch(`https://www.omdbapi.com/?t=${movie}&apikey=f65e2728`)
+      // console.log(res)
+      try {
+         let data = await res.json()
+         // console.log(data)
+         display(data)
+      }
+      catch (e) {
+         console.log(e)
+      }
+   }
+
+
+   function display(data) {
+      document.querySelector(`#show`).innerHTML = null
+      console.log(data)
+
+      let div1 = document.createElement("div")
+      let div2 = document.createElement("div")
+
+      let title = document.createElement(`h2`)
+      title.innerText = "Title: " + data.Title
+      let img = document.createElement(`img`)
+      img.src = data.Poster
+
+      let year = document.createElement(`p`)
+      year.innerText = "Release: " + data.Year
+
+      let genre = document.createElement(`p`)
+      genre.innerText = "Genre: " + data.genre
+
+      let direc = document.createElement(`p`)
+      direc.innerText = "Director: " + data.Director
+
+      let rating = document.createElement(`p`)
+      rating.innerText = "Rated: " + data.imdbRating
+
+      if(Number(data.imdbRating) > 8.5){
+         let recommendation = document.createElement(`img`)
+         recommendation.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIgrdq8oOrLrQoRkLcPNqWDFnPXusf-_Q6fA&usqp=CAU"
+         div1.append(img,recommendation)
+      }else{
+         div1.append(img)
+      }
+      div2.append(title, year, rating, genre, direc)
+
+
+
+      document.querySelector(`#show`).append(div1, div2)
+   }
+</script>
