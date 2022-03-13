@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Weather app</title>
+   <style>
+      * {
+         margin: 0;
+         padding: 0;
+         box-sizing: border-box;
+      }
+
+      #navbar {
+         height: 60px;
+         display: flex;
+         padding: 10px;
+         background-color: #005986;
+         justify-content: space-around;
+         position: sticky;
+      }
+
+      #inputCity {
+
+         /* border: 1px solid red; */
+         display: flex;
+         /* justify-content: center; */
+      }
+
+      #city {
+         /* margin-left: 40%; */
+         width: 300px;
+         height: 35px;
+         font-size: 18px;
+         background-color: rgb(163, 167, 211);
+      }
+
+      #getweather {
+         font-size: 18px;
+         background-color: rgb(18, 22, 66);
+         color: white;
+      }
+
+      #map iframe {
+         width: 400px;
+         height: 400px;
+      }
+
+      #weekly {
+         
+         /* border: 1px solid red; */
+         width: 80%;
+         margin: auto;
+         text-align: center;
+         color: aliceblue;
+      }
+      #weekly>div{
+         display: grid;
+         grid-template-columns: repeat(7, 1fr);
+      }  
+      #weekly>div>div{
+         background-color: #282828;
+         box-shadow: 3px 3px 3px 3px;
+        
+      } 
+      #weekly>div>div>p{
+         font-size: 8px;
+         padding: 5px;
+      }
+   </style>
+</head>
+
+<body>
+   <nav id="navbar">
+      <h1>Weather App</h1>
+      <div id="inputCity">
+         <input type="text" id="city" placeholder="Enter city">
+         <button id="getweather" onclick="getWeather()">Get Weather</button>
+      </div>
+   </nav>
+
+   <section style="display: flex; justify-content: space-around;margin: 40px;">
+      <div id="container">
+
+      </div>
+      <div id="map">
+      </div>
+   </section>
+   <div id="weekly">
+   </div>
+</body>
+
+</html>
+<script>
+   //fetch and Url
+
+   async function getWeather() {
+
+      try {
+         let city = document.querySelector(`#city`).value
+
+         let res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=dab9e7fef1800048cfc9282cd647d11c&units=metric`)
+         let data = await res.json()
+         // console.log(data)
+         appendData(data)
+         weeklyData(data)
+      }
+
+      catch (err) {
+         console.log(err)
+      }
+   }
+
+   async function weeklyData(data) {
+      try {
+         let lat = data.coord.lat
+         let lon = data.coord.lon
+         // console.log(lon)
+         // console.log(lat)
+
+         let resWeekly = await fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=metric&exclude=hourly,minutely,alerts,current&appid=dab9e7fef1800048cfc9282cd647d11c`)
+
+         let weekly = await resWeekly.json()
+         // console.log(weekly)
+         appendWeekly(weekly)
+      }
+      catch (e) {
+         console.log(e)
+      }
+   }
+
+   
+   function appendData(data) {
+      
+      document.querySelector(`#container`).innerHTML = null
+      document.querySelector(`#map`).innerHTML = null
+
+
+      let name = document.createElement(`h3`)
+      name.innerText = data.name
+
+      // console.log(name.innerText)
+
+
+      let temp = document.createElement(`p`)
+      temp.innerText = "Temprature : " + data.main.temp
+
+
+      let mintemp = document.createElement(`p`)
+      mintemp.innerText = "Min Temprature : " + data.main.temp_min
+
+      let maxtemp = document.createElement(`p`)
+      maxtemp.innerText = "Max Temprature : " + data.main.temp_max
+
+      let pressure = document.createElement(`p`)
+      pressure.innerText = "Pressure : " + data.main.pressure
+
+      let wind = document.createElement(`p`)
+      wind.innerText = "Wind Speed : " + data.main.speed
+
+      let humidity = document.createElement(`p`)
+      humidity.innerText = "Humidity : " + data.main.humidity
+
+      let lat = document.createElement(`p`)
+      lat.innerText = "Latitude : " + data.coord.lat
+
+      let lon = document.createElement(`p`)
+      lon.innerText = "Longitude : " + data.coord.lon
+
+      let sunrise = document.createElement(`p`)
+      sunrise.innerText = "Sunrise : " + data.sys.sunrise
+
+      let sunset = document.createElement(`p`)
+      sunset.innerText = "Sunset : " + data.sys.sunset
+
+
+      // console.log(name,temp,pressure,humidity)
+      document.querySelector(`#container`).append(name, temp, pressure, humidity, maxtemp, mintemp, lat, lon, sunrise, sunset)
+
+      let iframe = document.createElement(`iframe`)
+      iframe.src = `https://maps.google.com/maps?q=${name.innerText}&t=&z=13&ie=UTF8&iwloc=&output=embed`
+
+      document.querySelector(`#map`).append(iframe)
+   }
+
+
+   function appendWeekly(weekly){
+      let Weeklycontainer = document.querySelector("#weekly")
+      
+      let main = document.createElement(`div`)
+      main.innerHTML = `
+      <div class="mon">
+         <h4>Mon</h4>
+      </div>
+      <div class="tue">
+         <h4>Tue</h4>
+      </div>
+      <div class="wed">
+         <h4>Wed</h4>
+      </div>
+      <div class="thu">
+         <h4>Thu</h4>
+      </div>
+      <div class="fri">
+         <h4>Fri</h4>
+      </div>
+      <div class="sat">
+         <h4>Sat</h4>
+      </div>
+      <div class="sun">
+         <h4>Sun</h4>
+      </div>`
+      Weeklycontainer.append(main)
+
+      weeklyDisplay(weekly.daily)
+   }
+
+   function weeklyDisplay(data){
+      console.log(data)
+      let count = 0
+      data.map(function(el){
+         console.log(el.weather[0].main)
+         let imgWeather = document.createElement(`img`)
+         imgWeather.style.width = "100%"
+         imgWeather.style.height = "100px"
+         if(el.weather[0].main === "Clear"){
+            imgWeather.src = "data:image/png;base64,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"
+         }
+         else if(el.weather[0].main === "Clouds") {
+            imgWeather.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmaLvWsiZXgrp89qe_FhH1TWdUvOEUGn8WcA&usqp=CAU"
+         }
+         else if(el.weather[0].main === "Rain"){
+            imgWeather.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc9UbZtid2SzdzKrLbOW8EHMDLnpMTUTFvQw&usqp=CAU"
+         }
+
+         let mon_min = document.createElement(`p`)
+         mon_min.innerText = el.temp.min + "°"
+         // mon_min.style
+         let mon_max = document.createElement(`p`)
+         mon_max.innerText = el.temp.max + "°"
+
+         switch (count) {
+            case 0:
+            document.querySelector(`.mon`).append(imgWeather,mon_max,mon_min)
+            count++
+            break;
+            case 1:
+            document.querySelector(`.tue`).append(imgWeather,mon_max,mon_min)
+            count++
+            break;
+            case 2:
+            document.querySelector(`.wed`).append(imgWeather,mon_max,mon_min)
+            count++
+            break;
+            case 3:
+            document.querySelector(`.thu`).append(imgWeather,mon_max,mon_min)
+            count++
+            break;
+            case 4:
+            document.querySelector(`.fri`).append(imgWeather,mon_max,mon_min)
+            count++
+            break;
+            case 5:
+            document.querySelector(`.sat`).append(imgWeather,mon_max,mon_min)
+            count++
+            break;
+            case 6:
+            document.querySelector(`.sun`).append(imgWeather,mon_max,mon_min)
+            count++
+            break;  
+         }
+
+      })
+   }
+</script>
