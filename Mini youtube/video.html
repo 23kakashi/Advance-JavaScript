@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Watch video</title>
+   <style>
+      #container{
+         height: 95vh;
+      }
+   </style>
+</head>
+<body>
+   <div id="container"></div>
+</body>
+</html>
+<script>
+
+   let videoId = JSON.parse(localStorage.getItem('videoref'))
+   
+   let display = () => {
+      console.log(videoId)
+      let frame = document.createElement(`iframe`)
+      frame.allow = "fullscreen"
+      frame.height = "100%"
+      frame.width = "100%"
+      frame.src = `https://www.youtube.com/embed/${videoId.videoref}`
+// QXhV148EryQ
+//${videoId}
+//ZEBVQ2Y0QiU
+      document.querySelector(`#container`).append(frame)
+   }
+   display()
+</script>
+<!-- QXhV148EryQ -->
+<!-- https://www.youtube.com/embed/QXhV148EryQ -->
+
