@@ -56,10 +56,10 @@
    async function makeRequest(movie) {
 
       let res = await fetch(`https://www.omdbapi.com/?t=${movie}&apikey=f65e2728`)
-      // console.log(res)
+      console.log(res)
       try {
          let data = await res.json()
-         // console.log(data)
+         console.log(data)
          display(data)
       }
       catch (e) {
